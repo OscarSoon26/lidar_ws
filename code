@@ -1,0 +1,46 @@
+ros2 run tf2_ros tf2_monitor
+
+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
+
+rm -rf .git
+git init
+echo -e "build/\ninstall/\nlog/\n.vscode/\n*.swp\n*.pyc" > .gitignore
+git add .
+git commit -m "Completely overwrote old repository with fresh physical Lidar and ESP32 code"
+git branch -M main
+
+git remote add origin https://<YOUR_CLASSIC_TOKEN>@github.com/OscarSoon26/Oscar.git
+git push -u origin main --force
+
+
+
+##Lidar is USB0
+##Esp  is USB1
+
+
+
+pkill -9 gzserver && pkill -9 gzclient && pkill -9 rviz2
+
+
+
+ros2 launch my_robot_nav navigation_launch.py
+ros2 launch slam_toolbox online_async_launch.py use_sim_time:=True
+ros2 run rviz2 rviz2 -d $(ros2 pkg prefix nav2_bringup)/share/nav2_bringup/rviz/nav2_default_view.rviz --ros-args -p use_sim_time:=True
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+
+ros2 run nav2_map_server map_saver_cli -f ~/robot_ws/src/my_robot_nav/maps/my_map 
+
+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
+
+echo "alias killgz='killall -9 gzserver gzclient rviz2'" >> ~/.bashrc
+
+
+
+
+ros2 run nav2_map_server map_saver_cli -f ~/lidar_ws/src/my_esp_driver/maps/my_room_map
+cd ~/lidar_ws
+colcon build --packages-select my_esp_driver
+source install/setup.bash
+
+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
