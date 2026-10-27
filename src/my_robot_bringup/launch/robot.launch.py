@@ -20,10 +20,10 @@ def generate_launch_description():
     scan_mode = LaunchConfiguration('scan_mode')
 
     # --- URDF / Xacro Processing ---
-    pkg_description = get_package_share_directory('my_robot_description')
+    pkg_description = get_package_share_directory('robot_description')
     pkg_bringup = get_package_share_directory('my_robot_bringup')
     
-    xacro_file = os.path.join(pkg_description, 'urdf', 'robot.urdf.xacro')
+    xacro_file = os.path.join(pkg_description, 'urdf', 'final_robot.urdf.xacro')
 
     # Convert Xacro into XML text
     robot_desc_xml = xacro.process_file(xacro_file).toxml()
