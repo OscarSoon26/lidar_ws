@@ -46,7 +46,22 @@ def generate_launch_description():
         }]
     )
 
-    # 2. SLLiDAR C1 Node
+    # 2. Joint State Publisher (FIXED: Properly declared and indented)
+    # Merges the wheel joints from your base and the arm joints from your arm driver!
+    jsp_node = Node(
+        package='joint_state_publisher',
+        executable='joint_state_publisher',
+        name='joint_state_publisher',
+        output='screen',
+        parameters=[{
+            # Subscribes to wheel states and arm states separately, then merges them
+            'robot_description': robot_description, # <--- ADD THIS LINE!
+            'source_list': ['/wheel_joint_states', '/arm_joint_states'],
+            'use_sim_time': use_sim_time ,
+        }]
+    )
+
+    # 3. SLLiDAR C1 Node
     lidar_node = Node(
         package='sllidar_ros2',
         executable='sllidar_node',
@@ -64,7 +79,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # 3. LiDAR Filter Node (< 0.4m cutoff)
+    # 4. LiDAR Filter Node (< 0.4m cutoff)
     lidar_filter_node = Node(
         package='my_robot_bringup',
         executable='lidar_filter.py',
@@ -72,7 +87,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # 4. EKF Node (robot_localization)
+    # 5. EKF Node (robot_localization)
     ekf_node = Node(
         package='robot_localization',
         executable='ekf_node',
@@ -108,7 +123,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'frame_id',
-            default_value='lidar_link',
+            default_value='lidar_link', # Ensure your URDF link is named lidar_link
             description='Specifying frame_id of lidar'
         ),
         DeclareLaunchArgument(
@@ -129,6 +144,7 @@ def generate_launch_description():
 
         # --- Launch the Nodes ---
         rsp_node,
+        jsp_node,             # <--- ADDED to launch list!
         lidar_node,
         lidar_filter_node,
         ekf_node

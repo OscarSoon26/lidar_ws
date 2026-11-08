@@ -22,7 +22,7 @@ class EspBridge(Node):
     def __init__(self):
         super().__init__('esp_bridge')
 
-        # --- ROS Parameters ---
+        # --- ROS Parameters --
         self.declare_parameter('port', '/dev/ttyACM0')
         self.declare_parameter('baudrate', 115200)
         self.odom_frame = self.declare_parameter('odom_frame', 'odom').get_parameter_value().string_value
@@ -47,7 +47,7 @@ class EspBridge(Node):
 
         # ROS Publishers & TF Broadcasters
         self.odom_pub = self.create_publisher(Odometry, 'odom', 10)
-        self.joint_pub = self.create_publisher(JointState, 'joint_states', 10)
+        self.joint_pub = self.create_publisher(JointState, 'wheel_joint_states', 10)
         self.imu_pub = self.create_publisher(Imu, 'imu/data', 10)
         self.tf_broadcaster = TransformBroadcaster(self)
 

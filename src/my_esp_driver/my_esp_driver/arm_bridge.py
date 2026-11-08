@@ -10,13 +10,13 @@ class ArmBridge(Node):
         super().__init__('arm_bridge')
 
         # Declare port parameter (can be overridden from terminal or launch file)
-        self.declare_parameter('port', '/dev/ttyACM1') 
+        self.declare_parameter('port', '/dev/ttyACM2') 
         self.declare_parameter('baudrate', 115200)
 
         port = self.get_parameter('port').get_parameter_value().string_value
         baudrate = self.get_parameter('baudrate').get_parameter_value().integer_value
 
-        self.joint_pub = self.create_publisher(JointState, 'joint_states', 10)
+        self.joint_pub = self.create_publisher(JointState, 'arm_joint_states', 10)
 
         try:
             self.ser = serial.Serial(port=port, baudrate=baudrate, timeout=0.1)

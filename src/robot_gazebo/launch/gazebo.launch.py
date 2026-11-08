@@ -12,11 +12,11 @@ def generate_launch_description():
     # 1. Package Directories
     # (If your package is named 'my_robot_gazebo', change 'robot_gazebo' to 'my_robot_gazebo')
     pkg_gazebo = get_package_share_directory('robot_gazebo')
-    pkg_description = get_package_share_directory('my_robot_description')
+    pkg_description = get_package_share_directory('robot_description')
     pkg_gazebo_ros = get_package_share_directory('gazebo_ros')
 
     # 2. Process XACRO into robot_description
-    xacro_file = os.path.join(pkg_description, 'urdf', 'robot.urdf.xacro')
+    xacro_file = os.path.join(pkg_description, 'urdf', 'final_robot.urdf.xacro')
     robot_desc_xml = xacro.process_file(xacro_file).toxml()
     robot_description = ParameterValue(robot_desc_xml, value_type=str)
 

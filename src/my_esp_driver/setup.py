@@ -31,7 +31,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'esp_bridge = my_esp_driver.esp_bridge:main'
+            'esp_bridge = my_esp_driver.esp_bridge:main',
             'arm_bridge = my_esp_driver.arm_bridge:main'
         ],
     },
